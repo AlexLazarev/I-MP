@@ -1,0 +1,4 @@
+﻿  Animation.cpp
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animation.cpp(25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
+  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)
