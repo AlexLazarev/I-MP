@@ -6,7 +6,7 @@
 class Essentiality
 {
 protected:
-	enum { stay, explosion, normal } STATE;
+	enum { stay, explosion, normal, bun} STATE;
 	char *name;
 public:
 	char* getName() { return name; };

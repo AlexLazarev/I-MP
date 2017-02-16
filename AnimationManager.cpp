@@ -38,3 +38,7 @@ void AnimationManager::draw(sf::RenderWindow &window, int x = 0, int y = 0) {
 void AnimationManager::tick(float time) {
 	animList[currentAnim].tick(time);
 }
+
+bool AnimationManager::End() {
+	return animList[currentAnim].End();
+}

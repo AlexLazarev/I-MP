@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Menu.h"
 #include <list>
 using namespace sf;
 
@@ -13,20 +14,28 @@ int main()
 {
 	Clock clock;
 
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "I&MP");
+	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "I&MP");
 	window.setFramerateLimit(60);
-	sf::Texture tBg, tHero, tEn, tExp, tBullet;
+
+	Menu menu(WIDTH,HEIGHT);
+
+	sf::Texture tBg, tHero, tEn, tExp, tBullet, THealth, TWeapon;
 
 	tBg.loadFromFile("images/1.png");
 	tHero.loadFromFile("images/hero.png");
 	tEn.loadFromFile("images/rock_small.png");
 	tExp.loadFromFile("images/explosions/type_A.png");
 	tBullet.loadFromFile("images/fire_blue.png");
+	THealth.loadFromFile("images/health1.png");
+	TWeapon.loadFromFile("images/weapon.png");
+	
 	AnimationManager anim;
 	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
-	anim.create("explosion", tExp, 0, 0, 50, 50, 20, 0.015, 50);
+	anim.create("explosion", tExp, 0, 0, 50, 50, 20, 0.01, 50);
 	anim.create("enemy", tEn, 0, 0, 64, 50, 16,0.005, 64);
 	anim.create("ship", tHero, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("health", THealth, 0, 0, 490, 490, 1, 0.005, 100);
+	anim.create("weapon", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
 	
 	
 	std::list<Essentiality*> essence;
@@ -35,7 +44,7 @@ int main()
 	essence.push_back(player);
 	for (int i = 0; i < ENEMY_COUNT; i++) {
 		Enemy *e = new Enemy();
-		e->create(anim, rand() % W, rand() % H, rand()%360,32);
+		e->create(anim, rand() % WIDTH, rand() % HEIGHT, rand()%360,32);
 		essence.push_back(e);
 	}
 
@@ -74,12 +83,10 @@ while (window.isOpen())	{
 				if (collision(i, j)) {
 					if (i->getName() == "bullet" && j->getName() == "enemy") {
 						i->life = 0;
-						j->life = 0;
-
+						j->dead();
 					}
 					else if (i->getName() == "player" && j->getName() == "enemy") {
-						//i->life--;
-						j->life = 0;
+						j->dead();				
 					}
 				}
 			
@@ -97,8 +104,10 @@ while (window.isOpen())	{
 
 		window.clear();
 		
-		for (auto i : essence) 
-			i->draw(window);
+		/*for (auto i : essence) 
+			i->draw(window);*/
+		menu.draw(window);
+		
 		
 		window.display();
 	}

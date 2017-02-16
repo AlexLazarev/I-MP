@@ -19,6 +19,7 @@ public:
 
 	void setRotate(int b = 0) { animList[currentAnim].rotate = b; }
 	void tick(float time);
+	bool End();
 	void pause() { animList[currentAnim].isPlaying = false; }
 	void play() { animList[currentAnim].isPlaying = true; }
 	void play(std::string name) { animList[name].isPlaying = true; }

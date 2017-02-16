@@ -3,14 +3,17 @@
 #include "SETTING.h"
 class Animation
 {
+	bool end;
 public:
-	std::vector<sf::IntRect> frames; // flip - povernytue izobrajeniya - dl9 zerkalnoi animacii
+	std::vector<sf::IntRect> frames; 
 	float currentFrame, speed;
 	bool isPlaying;
 	sf::Sprite sprite;
 	float rotate;
 	Animation();
 	~Animation();
+	bool End();
+
 	void tick(float time);
 };
 
