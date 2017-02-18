@@ -1,22 +1,22 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#define amountElements 3
+#define amountMenuItem 3
 class Menu
 {
 	int selectedItemIndex;
 	sf::Font font;
-	sf::Text text[amountElements];
+	sf::Text item[amountMenuItem];
 	
 
 public:
 	Menu(float width, float height);
 
-
+	int GetPressedItem() { return selectedItemIndex; }
 	Menu();
 	~Menu();
 
 	void draw(sf::RenderWindow &window); 
-	//void MoveUp();
-	//void MoveDown();
+	void MoveUp();
+	void MoveDown();
 };
 
