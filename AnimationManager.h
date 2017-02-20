@@ -12,7 +12,7 @@ public:
 	~AnimationManager();
 
 	void create(sf::String name, sf::Texture &t, int x, int y, int w, int h, int count, float speed, int step);
-	void draw(sf::RenderWindow &window, int x, int y);
+	void draw(sf::RenderWindow *&window, int x, int y);
 
 
 	void set(sf::String name) { currentAnim = name; }

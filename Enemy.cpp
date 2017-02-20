@@ -22,21 +22,8 @@ void Enemy::Animation(float time)
 		name = "explosion";
 		dx = 0;
 		dy = 0;
-		if (anim.End()){
-			int r = rand() % 10;
-			if (r < 6) {
-				STATE = bun;
-				if (r < 3) {
-					anim.set("health");
-					name = "health";
-				}
-				else {
-					anim.set("weapon");
-					name = "weapon";
-				}
-			}
-			else life = 0;
-		}
+		if (anim.End())
+			life = 0;
 	}
 	
 	if (STATE == stay) anim.set("stay");

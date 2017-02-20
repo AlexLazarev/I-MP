@@ -19,10 +19,13 @@ public:
 	int dir;
 	Essentiality();
 	void create(AnimationManager a, float X, float Y, float Angle, float R);
+
 	virtual void update(float time) = 0;
 	virtual void Animation(float time) = 0;
-	void draw(sf::RenderWindow &window);
 	virtual void dead() = 0;
+
+	void draw(sf::RenderWindow *&window);
+	bool collision(Essentiality *b);
 };
 
 

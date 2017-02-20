@@ -1,40 +1,4 @@
 ﻿  Source.cpp
 c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(31): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(32): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(33): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(34): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(35): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(36): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\source.cpp(52): warning C4244: 'initializing': conversion from 'sf::Int64' to 'float', possible loss of data
-  Player.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\player.cpp(59): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\player.cpp(68): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\player.cpp(69): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\player.cpp(73): warning C4305: '*=': truncation from 'double' to 'float'
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\player.cpp(74): warning C4305: '*=': truncation from 'double' to 'float'
-  Menu.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\menu.cpp(18): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Essentiality.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\essentiality.cpp(23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Enemy.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(7): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(19): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Bullet.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\bullet.cpp(15): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  AnimationManager.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.cpp(20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.cpp(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Animation.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animation.cpp(28): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
-  IandMyProblems.vcxproj -> C:\Users\Alex\Documents\Visual Studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
-  IandMyProblems.vcxproj -> C:\Users\Alex\Documents\Visual Studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)
+  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
+  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)

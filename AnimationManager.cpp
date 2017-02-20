@@ -27,9 +27,9 @@ void AnimationManager::create(sf::String name, sf::Texture &t, int x, int y, int
 
 }
 
-void AnimationManager::draw(sf::RenderWindow &window, int x = 0, int y = 0) {
+void AnimationManager::draw(sf::RenderWindow *&window, int x = 0, int y = 0) {
 	animList[currentAnim].sprite.setPosition(x, y);
-	window.draw(animList[currentAnim].sprite);
+	window->draw(animList[currentAnim].sprite);
 
 
 
