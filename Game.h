@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Booty.h"
 #include "Menu.h"
 #include <list>
 

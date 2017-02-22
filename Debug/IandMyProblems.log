@@ -1,4 +1,12 @@
-﻿  Source.cpp
+﻿  Game.cpp
 c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(26): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(27): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(28): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(29): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(30): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(31): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(49): warning C4244: 'initializing': conversion from 'sf::Int64' to 'float', possible loss of data
   IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
   IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)

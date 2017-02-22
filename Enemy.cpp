@@ -23,7 +23,7 @@ void Enemy::Animation(float time)
 		dx = 0;
 		dy = 0;
 		if (anim.End())
-			life = 0;
+			dead = true;
 	}
 	
 	if (STATE == stay) anim.set("stay");
@@ -34,15 +34,13 @@ void Enemy::Animation(float time)
 
 void Enemy::update(float time) {
 	Animation(time);
-	x += dx;
-	y += dy;
+	x += 0;
+	y += 0;
+	if (life <= 0)
+		STATE = explosion;
 	if (x > WIDTH) x = 0;
 	if (y > HEIGHT) y = 0;
 	if (x < 0) x = WIDTH;
 	if (y < 0) y = HEIGHT;
 }
 
-void Enemy::dead() {
-	STATE = explosion;
-	//life = 0;
-}

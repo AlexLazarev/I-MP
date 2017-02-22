@@ -83,6 +83,7 @@ void Player::update(float time) {
 
 	x += dx;
 	y += dy;
-
+	if (life <= 0)
+		dead = true;
 	key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
 }

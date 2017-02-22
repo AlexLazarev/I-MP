@@ -5,9 +5,8 @@ Menu::Menu() {
 }
 
 Menu::Menu(float width, float height) {
-	if (!font.loadFromFile("font/BLACK_WATER_CRE.ttf")) {
-		printf("Шрифт не загружен");
-	}
+	font.loadFromFile("font/BLACK_WATER_CRE.ttf");
+	
 	for (int i = 0; i < amountMenuItem; i++) {
 		item[i].setFont(font);
 		

@@ -20,31 +20,32 @@ void Game::Start() {
 	tEn.loadFromFile("images/rock_small.png");
 	tExp.loadFromFile("images/explosions/type_A.png");
 	tBullet.loadFromFile("images/fire_blue.png");
-	THealth.loadFromFile("images/health1.png");
-	TWeapon.loadFromFile("images/weapon.png");
-
+	THealth.loadFromFile("images/health2.png");
+	TWeapon.loadFromFile("images/set6.png");
+	
 	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
 	anim.create("explosion", tExp, 0, 0, 50, 50, 20, 0.01, 50);
 	anim.create("enemy", tEn, 0, 0, 64, 50, 16, 0.005, 64);
 	anim.create("ship", tHero, 80, 80, 100, 100, 1, 0.005, 100);
-	anim.create("health", THealth, 0, 0, 490, 490, 1, 0.005, 100);
-	anim.create("weapon", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
+	anim.create("health", THealth, 0, 0, 80, 80, 1, 0.005, 100);
+	anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
+	
 	sf::Clock clock;
 	window->setFramerateLimit(60);
 
 	Player *player = new Player();
-	player->create(anim, 50, 100, 0, 50);
+	player->create(anim, 50, 100, 0, 45);
 	essence.push_back(player);
 
 	for (int i = 0; i < ENEMY_COUNT; i++) {
 		Enemy *e = new Enemy();
-		e->create(anim, rand() % WIDTH, rand() % HEIGHT, rand() % 360, 32);
+		e->create(anim, rand() % WIDTH, rand() % HEIGHT, rand() % 360, 25);
 		essence.push_back(e);
 	}
 
 
 	while (window->isOpen()) {
-
+		
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
 
@@ -60,7 +61,7 @@ void Game::Start() {
 			if (event.type == sf::Event::KeyPressed)
 				if (event.key.code == sf::Keyboard::Space) {
 					Bullet *b = new Bullet();
-					b->create(anim, player->x, player->y, player->angle, 16);
+					b->create(anim, player->getX(), player->getY(), player->getAngle(), BULLET_RADIUS);
 					essence.push_back(b);
 				}
 
@@ -75,11 +76,17 @@ void Game::Start() {
 			for (auto j : essence)
 				if (i->collision(j)) {
 					if (i->getName() == "bullet" && j->getName() == "enemy") {
-						i->life = 0;
-						j->dead();
+					//	printf("x: %f y: %f\n", j->getX(),j->getY());
+						
+						i->damage(1);
+						j->damage(1);
+						if (j->getDead()) {
+							Booty *b = new Booty();
+							b->create(anim, j->getX(), j->getY(), 0, 16);
+							essence.push_back(b);
+						}
 					}
 					else if (i->getName() == "player" && j->getName() == "enemy") {
-						j->dead();
 					}
 				}
 
@@ -87,7 +94,7 @@ void Game::Start() {
 			Essentiality *e = *i;
 			e->update(time);
 
-			if (e->life == false) {
+			if (e->getDead()) {
 				i = essence.erase(i);
 				delete e;
 			}  /// kxm

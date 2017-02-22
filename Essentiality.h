@@ -8,24 +8,37 @@ class Essentiality
 protected:
 	enum { stay, explosion, normal, bun} STATE;
 	char *name;
-public:
-	char* getName() { return name; };
 	float x, y, dx, dy;
 	float angle;
 	float speed;
 	float r;
-	AnimationManager anim;
 	int life;
-	int dir;
-	Essentiality();
+	bool dead;
+	AnimationManager anim;
+
+	virtual void Animation(float time) = 0;
+public:
+	char* getName()			{ return name; };
+	int getLife()			{ return life; }
+	float getX()			{ return x; }
+	float getY()			{ return y; }
+	float getAngle()		{ return angle; }
+	bool getDead()			{ return dead; }
+	
+	void damage(int d)		{ life -= d; }
+	
+	
 	void create(AnimationManager a, float X, float Y, float Angle, float R);
+	void draw(sf::RenderWindow *&window);
+
+	bool collision(Essentiality *b);
 
 	virtual void update(float time) = 0;
-	virtual void Animation(float time) = 0;
-	virtual void dead() = 0;
+	
+	
 
-	void draw(sf::RenderWindow *&window);
-	bool collision(Essentiality *b);
+
+	Essentiality();
 };
 
 

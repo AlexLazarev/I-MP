@@ -15,7 +15,6 @@ public:
 	void Animation(float time);
 	void update(float time);
 	Player();
-	void dead() {};
 	~Player();
 };
 

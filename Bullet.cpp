@@ -27,7 +27,8 @@ void Bullet::update(float time) {
 	x += dx;
 	y += dy;
 
-	if (x > WIDTH || y > HEIGHT || x < 0 || y < 0) 
-		life = 0;
-
+	if (x > WIDTH || y > HEIGHT || x < 0 || y < 0)
+		dead = true;
+	if (life <= 0)
+		dead = true;
 }
