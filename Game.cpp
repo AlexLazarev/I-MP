@@ -14,24 +14,27 @@ Game::~Game()
 
 
 void Game::Start() {
-	sf::Texture tBg, tHero, tEn, tExp, tBullet, THealth, TWeapon;
+	sf::Texture tBg, tHero, tEn, tExp, tBullet, THealth, TWeapon, tHeroFly;
 	tBg.loadFromFile("images/1.png");
 	tHero.loadFromFile("images/hero.png");
 	tEn.loadFromFile("images/rock_small.png");
-	tExp.loadFromFile("images/explosions/type_A.png");
+	tExp.loadFromFile("images/explosions/type_C.png");
 	tBullet.loadFromFile("images/fire_blue.png");
 	THealth.loadFromFile("images/health2.png");
 	TWeapon.loadFromFile("images/set6.png");
+	tHeroFly.loadFromFile("images/heroFly.png");
 	
 	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
-	anim.create("explosion", tExp, 0, 0, 50, 50, 20, 0.01, 50);
+	anim.create("explosion", tExp, 0, 0, 150, 150, 48, 0.015, 150);
 	anim.create("enemy", tEn, 0, 0, 64, 50, 16, 0.005, 64);
 	anim.create("ship", tHero, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("heroFly", tHeroFly, 0, 0, 250, 250, 3, 0.0035, 240);
 	anim.create("health", THealth, 0, 0, 80, 80, 1, 0.005, 100);
 	anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
 	
 	sf::Clock clock;
 	window->setFramerateLimit(60);
+	Score score(WIDTH,HEIGHT);
 
 	Player *player = new Player();
 	player->create(anim, 50, 100, 0, 45);
@@ -80,6 +83,7 @@ void Game::Start() {
 						
 						i->damage(1);
 						j->damage(1);
+						score.setScore(10);
 						if (j->getDead()) {
 							Booty *b = new Booty();
 							b->create(anim, j->getX(), j->getY(), 0, 16);
@@ -87,6 +91,7 @@ void Game::Start() {
 						}
 					}
 					else if (i->getName() == "player" && j->getName() == "enemy") {
+						player->damage(1);
 					}
 				}
 
@@ -107,6 +112,8 @@ void Game::Start() {
 		for (auto i : essence)
 			i->draw(window);
 
+		score.draw(window);
+		player->drawBar(window);
 
 
 		window->display();
@@ -155,7 +162,7 @@ void Game::ShowMenu() {
 		}
 }
 
-void Game::Loop() {
+void Game::loop() {
 	while (window->isOpen()) {
 		switch (gameState) {
 		case ShowingMenu:

@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Booty.h"
 #include "Menu.h"
+#include "Score.h"
 #include <list>
 
 class Game
@@ -16,7 +17,7 @@ public:
 	Game();
 	~Game();
 	void Start();
-	void Loop();
+	void loop();
 	void ShowMenu();
 	
 };

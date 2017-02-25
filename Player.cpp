@@ -7,8 +7,10 @@ Player::Player(){
 	shoot = false;
 	STATE = normal;
 	speed = 30;
-	angle = 0;
-	life = 2;
+	life = PLAYER_MAX_LIFE;
+	lifeBar.setFillColor(sf::Color(185,1,1));
+	lifeBar.setSize(sf::Vector2f(life,10));
+	lifeBar.setPosition(WIDTH*0.1, HEIGHT*0.02);
 }
 
 
@@ -56,6 +58,8 @@ void Player::Animation(float time)
 {
 	if (STATE == explosion) anim.set("explosion");
 	if (STATE == normal) anim.set("ship");
+	if (STATE == fly) 
+		anim.set("heroFly");
 	anim.setRotate(angle);
 	anim.tick(time);
 }
@@ -63,13 +67,14 @@ void Player::Animation(float time)
 void Player::update(float time) {
 	KeyCheck();
 	Animation(time);
-
+	lifeBar.setSize(sf::Vector2f(life, 10));
 	if (thrust) {
+		//STATE = fly;
 		dx += cos(angle*DEGTORAD)*0.2;
 		dy += sin(angle*DEGTORAD)*0.2;
-
 	}
 	else {
+		STATE = normal;
 		dx *= 0.9;
 		dy *= 0.9;
 	}
@@ -86,4 +91,9 @@ void Player::update(float time) {
 	if (life <= 0)
 		dead = true;
 	key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
+}
+
+void Player::drawBar(sf::RenderWindow *&window) {
+	window->draw(lifeBar);
+
 }

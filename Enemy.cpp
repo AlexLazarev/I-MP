@@ -34,8 +34,8 @@ void Enemy::Animation(float time)
 
 void Enemy::update(float time) {
 	Animation(time);
-	x += 0;
-	y += 0;
+	x += dx;
+	y += dy;
 	if (life <= 0)
 		STATE = explosion;
 	if (x > WIDTH) x = 0;
