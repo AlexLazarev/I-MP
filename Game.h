@@ -1,10 +1,12 @@
 #pragma once
 #include "Player.h"
+#include "Meteorite.h"
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Booty.h"
 #include "Menu.h"
 #include "Score.h"
+
 #include <list>
 
 class Game

@@ -2,7 +2,8 @@
 
 
 
-Enemy::Enemy(){
+
+Enemy::Enemy() {
 	dx = rand() % 10 - 5;
 	dy = rand() % 10 - 5;
 	STATE = normal;
@@ -25,7 +26,7 @@ void Enemy::Animation(float time)
 		if (anim.End())
 			dead = true;
 	}
-	
+
 	if (STATE == stay) anim.set("stay");
 	if (STATE == normal) anim.set("enemy");
 	anim.setRotate(angle);
@@ -34,8 +35,14 @@ void Enemy::Animation(float time)
 
 void Enemy::update(float time) {
 	Animation(time);
-	x += dx;
-	y += dy;
+	x += 0;
+	y += 0;
+
+	if (angle < 360)
+		angle++;
+	else
+		angle = 0;
+
 	if (life <= 0)
 		STATE = explosion;
 	if (x > WIDTH) x = 0;
@@ -44,3 +51,10 @@ void Enemy::update(float time) {
 	if (y < 0) y = HEIGHT;
 }
 
+void Enemy::aim(float X, float Y) {
+	float x1, y1, A;
+	x1 = X - x;
+	y1 = Y - y;
+	angle = (atan2(y1, x1)) * 180 / M_PI;
+	printf("%f\n", angle);
+}

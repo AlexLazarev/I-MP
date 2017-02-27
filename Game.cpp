@@ -14,21 +14,23 @@ Game::~Game()
 
 
 void Game::Start() {
-	sf::Texture tBg, tHero, tEn, tExp, tBullet, THealth, TWeapon, tHeroFly;
+	sf::Texture tBg, tHero, tMeteorite, tExp, tBullet, THealth, TWeapon, tHeroFly, TEnemy;
 	tBg.loadFromFile("images/1.png");
-	tHero.loadFromFile("images/hero.png");
-	tEn.loadFromFile("images/rock_small.png");
+	tHero.loadFromFile("images/ship/hero.png");
+	tMeteorite.loadFromFile("images/rock_small.png");
 	tExp.loadFromFile("images/explosions/type_C.png");
 	tBullet.loadFromFile("images/fire_blue.png");
 	THealth.loadFromFile("images/health2.png");
-	TWeapon.loadFromFile("images/set6.png");
-	tHeroFly.loadFromFile("images/heroFly.png");
+	TWeapon.loadFromFile("images/set6.png");	
+	TEnemy.loadFromFile("images/ship/enemy_type_A.png");
 	
 	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
 	anim.create("explosion", tExp, 0, 0, 150, 150, 48, 0.015, 150);
-	anim.create("enemy", tEn, 0, 0, 64, 50, 16, 0.005, 64);
-	anim.create("ship", tHero, 80, 80, 100, 100, 1, 0.005, 100);
-	anim.create("heroFly", tHeroFly, 0, 0, 250, 250, 3, 0.0035, 240);
+
+	anim.create("meteorite", tMeteorite, 0, 0, 64, 50, 16, 0.005, 64);
+	anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("enemy", TEnemy, 80, 80, 100, 100, 1, 0.005, 100);
+
 	anim.create("health", THealth, 0, 0, 80, 80, 1, 0.005, 100);
 	anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
 	
@@ -40,10 +42,14 @@ void Game::Start() {
 	player->create(anim, 50, 100, 0, 45);
 	essence.push_back(player);
 
-	for (int i = 0; i < ENEMY_COUNT; i++) {
-		Enemy *e = new Enemy();
-		e->create(anim, rand() % WIDTH, rand() % HEIGHT, rand() % 360, 25);
-		essence.push_back(e);
+	Enemy *e = new Enemy();
+	e->create(anim, rand() % WIDTH, rand() % HEIGHT, 90, 25);
+	essence.push_back(e);
+	
+	for (int i = 0; i < METEORITE_COUNT; i++) {
+		Meteorite *m = new Meteorite();	
+		m->create(anim, rand() % WIDTH, rand() % HEIGHT, rand() % 360, 25);
+		essence.push_back(m);
 	}
 
 
@@ -75,6 +81,10 @@ void Game::Start() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player->key["Up"] = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) { player->key["Space"] = true; };
 
+
+		e->aim(player->getX(), player->getY());
+
+
 		for (auto i : essence)
 			for (auto j : essence)
 				if (i->collision(j)) {
@@ -98,6 +108,7 @@ void Game::Start() {
 		for (auto i = essence.begin(); i != essence.end(); ) {
 			Essentiality *e = *i;
 			e->update(time);
+			
 
 			if (e->getDead()) {
 				i = essence.erase(i);

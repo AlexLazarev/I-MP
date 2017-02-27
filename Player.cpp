@@ -57,7 +57,7 @@ void Player::KeyCheck() {
 void Player::Animation(float time)
 {
 	if (STATE == explosion) anim.set("explosion");
-	if (STATE == normal) anim.set("ship");
+	if (STATE == normal) anim.set("hero");
 	if (STATE == fly) 
 		anim.set("heroFly");
 	anim.setRotate(angle);

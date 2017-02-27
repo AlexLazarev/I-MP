@@ -1,14 +1,14 @@
 #pragma once
 #include "Essentiality.h"
-class Enemy :
+
+class Enemy:
 	public Essentiality
 {
-	
 public:
 	Enemy();
 	~Enemy();
 	void update(float time);
 	void Animation(float time);
-	
+	void aim(float X, float Y);
 };
 
