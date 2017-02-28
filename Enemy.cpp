@@ -19,7 +19,7 @@ void Enemy::Animation(float time)
 {
 	float r = rand() % 5;
 	if (STATE == explosion) {
-		anim.set("explosion");
+		anim.set("explosion_C");
 		name = "explosion";
 		dx = 0;
 		dy = 0;
@@ -35,13 +35,10 @@ void Enemy::Animation(float time)
 
 void Enemy::update(float time) {
 	Animation(time);
-	x += 0;
-	y += 0;
+	x += dx;
+	y += dy;
 
-	if (angle < 360)
-		angle++;
-	else
-		angle = 0;
+	aim();
 
 	if (life <= 0)
 		STATE = explosion;
@@ -51,10 +48,14 @@ void Enemy::update(float time) {
 	if (y < 0) y = HEIGHT;
 }
 
-void Enemy::aim(float X, float Y) {
-	float x1, y1, A;
-	x1 = X - x;
-	y1 = Y - y;
+void Enemy::aim() {
+	float x1, y1;
+	x1 = target->getX() - x;
+	y1 = target->getY() - y;
 	angle = (atan2(y1, x1)) * 180 / M_PI;
-	printf("%f\n", angle);
+//	printf("%f\n", angle);
+}
+
+void Enemy::setTarget(const Essentiality *newTarget) {
+	target = newTarget;
 }

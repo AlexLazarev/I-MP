@@ -7,23 +7,24 @@ class Essentiality
 {
 protected:
 	enum { stay, explosion, normal, bun, fly} STATE;
-	char *name;
-	float x, y, dx, dy;
-	float angle;
-	float speed;
-	float r;
-	int life;
-	bool dead;
+
+	char*			 name;
+	float			 x, y, dx, dy;
+	float			 angle;
+	float			 speed;
+	float			 r;
+	int              life;
+	bool			 dead;
 	AnimationManager anim;
 
 	virtual void Animation(float time) = 0;
 public:
-	char* getName()			{ return name; };
-	int getLife()			{ return life; }
-	float getX()			{ return x; }
-	float getY()			{ return y; }
-	float getAngle()		{ return angle; }
-	bool getDead()			{ return dead; }
+	char* getName()	 const  { return name; }
+	int getLife()    const	{ return life; }
+	float getX()     const	{ return x; }
+	float getY()	 const	{ return y; }
+	float getAngle() const	{ return angle; }
+	bool getDead()	 const	{ return dead; }
 	
 	void damage(int d)		{ life -= d; }
 	

@@ -12,9 +12,9 @@
 class Game
 {
 	enum { ShowingSplash, ShowingMenu, ShowingWin, Playing} gameState;
-	sf::RenderWindow *window;
-	AnimationManager anim;
-	std::list<Essentiality*> essence;
+	sf::RenderWindow*			window;
+	AnimationManager			anim;
+	std::list<Essentiality*>	essence;
 public:
 	Game();
 	~Game();

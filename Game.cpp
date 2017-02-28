@@ -14,25 +14,34 @@ Game::~Game()
 
 
 void Game::Start() {
-	sf::Texture tBg, tHero, tMeteorite, tExp, tBullet, THealth, TWeapon, tHeroFly, TEnemy;
+	sf::Texture tBg, tHero, tMeteorite, tExpA, tExpB, tExpC, tBullet, THealth, TWeapon, tHeroFly, TEnemy;
+	
 	tBg.loadFromFile("images/1.png");
 	tHero.loadFromFile("images/ship/hero.png");
 	tMeteorite.loadFromFile("images/rock_small.png");
-	tExp.loadFromFile("images/explosions/type_C.png");
-	tBullet.loadFromFile("images/fire_blue.png");
+	tBullet.loadFromFile("images/fire_red.png");
 	THealth.loadFromFile("images/health2.png");
-	TWeapon.loadFromFile("images/set6.png");	
+	TWeapon.loadFromFile("images/set6.png");
 	TEnemy.loadFromFile("images/ship/enemy_type_A.png");
+
+	//Texture explosion
+	tExpA.loadFromFile("images/explosion/type_A.png");
+	tExpB.loadFromFile("images/explosions/type_B.png");
+	tExpC.loadFromFile("images/explosions/type_C.png");
+
+	//Animation explosion
+	anim.create("explosion_A", tExpA, 0, 0, 150, 150, 20, 0.015, 150);
+	anim.create("explosion_B", tExpB, 0, 0, 200, 200, 60, 0.015, 200);
+	anim.create("explosion_C", tExpC, 0, 0, 150, 150, 48, 0.015, 150);
 	
-	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
-	anim.create("explosion", tExp, 0, 0, 150, 150, 48, 0.015, 150);
 
 	anim.create("meteorite", tMeteorite, 0, 0, 64, 50, 16, 0.005, 64);
 	anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
 	anim.create("enemy", TEnemy, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
 
 	anim.create("health", THealth, 0, 0, 80, 80, 1, 0.005, 100);
-	anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
+	//anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
 	
 	sf::Clock clock;
 	window->setFramerateLimit(60);
@@ -42,10 +51,13 @@ void Game::Start() {
 	player->create(anim, 50, 100, 0, 45);
 	essence.push_back(player);
 
-	Enemy *e = new Enemy();
-	e->create(anim, rand() % WIDTH, rand() % HEIGHT, 90, 25);
-	essence.push_back(e);
-	
+	for (int i = 0; i < ENEMY_COUNT; i++) {
+		Enemy *e = new Enemy();
+		e->create(anim, rand() % WIDTH, rand() % HEIGHT, 90, 25);
+		e->setTarget(player);       // static  - ERROR
+		essence.push_back(e);
+	}
+
 	for (int i = 0; i < METEORITE_COUNT; i++) {
 		Meteorite *m = new Meteorite();	
 		m->create(anim, rand() % WIDTH, rand() % HEIGHT, rand() % 360, 25);
@@ -75,14 +87,14 @@ void Game::Start() {
 				}
 
 		}
-
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) player->key["R"] = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))player->key["L"] = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player->key["Up"] = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) { player->key["Space"] = true; };
 
 
-		e->aim(player->getX(), player->getY());
+		
 
 
 		for (auto i : essence)

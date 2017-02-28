@@ -1,10 +1,2 @@
-﻿  Enemy.cpp
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(7): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(8): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(20): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(58): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\enemy.cpp(55): warning C4101: 'A': unreferenced local variable
-  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
-  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)
+﻿  Game.cpp
+c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp : fatal error C1041: cannot open program database 'C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\vc140.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
