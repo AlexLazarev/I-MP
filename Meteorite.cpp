@@ -18,7 +18,7 @@ void Meteorite::Animation(float time)
 {
 	float r = rand() % 5;
 	if (STATE == explosion) {
-		anim.set("explosion_B");
+		anim.set("explosion_C");
 		name = "explosion";
 		dx = 0;
 		dy = 0;

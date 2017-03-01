@@ -16,7 +16,10 @@ Game::~Game()
 void Game::Start() {
 	sf::Texture tBg, tHero, tMeteorite, tExpA, tExpB, tExpC, tBullet, THealth, TWeapon, tHeroFly, TEnemy;
 	
-	tBg.loadFromFile("images/1.png");
+	tBg.loadFromFile("images/bg.jpg");
+	sf::Sprite bg;
+	bg.setTexture(tBg);
+
 	tHero.loadFromFile("images/ship/hero.png");
 	tMeteorite.loadFromFile("images/rock_small.png");
 	tBullet.loadFromFile("images/fire_red.png");
@@ -25,13 +28,13 @@ void Game::Start() {
 	TEnemy.loadFromFile("images/ship/enemy_type_A.png");
 
 	//Texture explosion
-	tExpA.loadFromFile("images/explosion/type_A.png");
+	tExpA.loadFromFile("images/explosions/type_A.png");
 	tExpB.loadFromFile("images/explosions/type_B.png");
 	tExpC.loadFromFile("images/explosions/type_C.png");
 
 	//Animation explosion
-	anim.create("explosion_A", tExpA, 0, 0, 150, 150, 20, 0.015, 150);
-	anim.create("explosion_B", tExpB, 0, 0, 200, 200, 60, 0.015, 200);
+	anim.create("explosion_A", tExpA, 0, 0, 147, 150, 20, 0.015, 147);
+	anim.create("explosion_B", tExpB, 0, 0, 128, 150, 60, 0.015, 128);
 	anim.create("explosion_C", tExpC, 0, 0, 150, 150, 48, 0.015, 150);
 	
 
@@ -131,11 +134,13 @@ void Game::Start() {
 
 
 		window->clear();
+		window->draw(bg);
 
 		for (auto i : essence)
 			i->draw(window);
 
 		score.draw(window);
+		
 		player->drawBar(window);
 
 

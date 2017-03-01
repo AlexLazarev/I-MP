@@ -19,7 +19,7 @@ void Enemy::Animation(float time)
 {
 	float r = rand() % 5;
 	if (STATE == explosion) {
-		anim.set("explosion_C");
+		anim.set("explosion_B");
 		name = "explosion";
 		dx = 0;
 		dy = 0;

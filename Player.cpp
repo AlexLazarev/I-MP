@@ -23,13 +23,12 @@ Player::~Player()
 void Player::KeyCheck() {
 
 	if (key["L"])	{
-		angle -= 3;
+		angle -= 4;
 	}
 
-	if (key["R"]){
-		angle += 3;	
+	if (key["R"]) {
+		angle += 4;
 	}
-
 	if (key["Up"])	{
 		thrust = true;
 	}
@@ -56,10 +55,9 @@ void Player::KeyCheck() {
 
 void Player::Animation(float time)
 {
-	if (STATE == explosion) anim.set("explosion");
-	if (STATE == normal) anim.set("hero");
-	if (STATE == fly) 
-		anim.set("heroFly");
+	if (STATE == explosion) anim.set("explosion_A");
+	if (STATE == normal)	anim.set("hero");
+	if (STATE == fly)		anim.set("heroFly");
 	anim.setRotate(angle);
 	anim.tick(time);
 }
@@ -67,7 +65,7 @@ void Player::Animation(float time)
 void Player::update(float time) {
 	KeyCheck();
 	Animation(time);
-	lifeBar.setSize(sf::Vector2f(life, 10));
+	
 	if (thrust) {
 		//STATE = fly;
 		dx += cos(angle*DEGTORAD)*0.2;
@@ -88,7 +86,9 @@ void Player::update(float time) {
 
 	x += dx;
 	y += dy;
-	if (life <= 0)
+	if(life > 0)
+		lifeBar.setSize(sf::Vector2f(life, 10));
+	else 
 		dead = true;
 	key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
 }

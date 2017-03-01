@@ -16,7 +16,7 @@ Animation::~Animation()
 }
 
 void Animation::tick(float time) {
-	if (!isPlaying) return;
+	//if (!isPlaying) return;
 
 	currentFrame += speed * time;
 
