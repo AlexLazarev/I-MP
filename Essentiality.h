@@ -6,7 +6,7 @@
 class Essentiality
 {
 protected:
-	enum { stay, explosion, normal, bun, fly} STATE;
+	
 
 	char*			 name;
 	float			 x, y, dx, dy;

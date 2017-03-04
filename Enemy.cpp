@@ -1,8 +1,5 @@
 #include "Enemy.h"
 
-
-
-
 Enemy::Enemy() {
 	dx = rand() % 10 - 5;
 	dy = rand() % 10 - 5;
@@ -21,13 +18,10 @@ void Enemy::Animation(float time)
 	if (STATE == explosion) {
 		anim.set("explosion_B");
 		name = "explosion";
-		dx = 0;
-		dy = 0;
+		
 		if (anim.End())
 			dead = true;
 	}
-
-	if (STATE == stay) anim.set("stay");
 	if (STATE == normal) anim.set("enemy");
 	anim.setRotate(angle);
 	anim.tick(time*r);
@@ -35,17 +29,20 @@ void Enemy::Animation(float time)
 
 void Enemy::update(float time) {
 	Animation(time);
-	x += dx;
-	y += dy;
 
-	aim();
-
-	if (life <= 0)
+	if (life > 0) {
+		x += dx;
+		y += dy;
+		aim();
+		
+		if (x > WIDTH) x = 0;
+		if (y > HEIGHT) y = 0;
+		if (x < 0) x = WIDTH;
+		if (y < 0) y = HEIGHT;
+	}
+	else
 		STATE = explosion;
-	if (x > WIDTH) x = 0;
-	if (y > HEIGHT) y = 0;
-	if (x < 0) x = WIDTH;
-	if (y < 0) y = HEIGHT;
+	
 }
 
 void Enemy::aim() {
@@ -59,3 +56,5 @@ void Enemy::aim() {
 void Enemy::setTarget(const Essentiality *newTarget) {
 	target = newTarget;
 }
+
+

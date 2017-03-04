@@ -5,6 +5,7 @@
 
 class Player : public Essentiality
 {
+	enum { explosion, normal, fly } STATE;
 	bool thrust = false;
 	sf::RectangleShape lifeBar;
 public:

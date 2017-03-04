@@ -14,40 +14,55 @@ Game::~Game()
 
 
 void Game::Start() {
-	sf::Texture tBg, tHero, tMeteorite, tExpA, tExpB, tExpC, tBullet, THealth, TWeapon, tHeroFly, TEnemy;
+	sf::Texture tBg, tHero, tMeteorite, tExpA, tExpB, tExpC, tBulletRed, tBulletBlue, THealth, TWeapon, tHeroFly, TEnemy;
 	
 	tBg.loadFromFile("images/bg.jpg");
 	sf::Sprite bg;
 	bg.setTexture(tBg);
 
-	tHero.loadFromFile("images/ship/hero.png");
+
 	tMeteorite.loadFromFile("images/rock_small.png");
-	tBullet.loadFromFile("images/fire_red.png");
+	
 	THealth.loadFromFile("images/health2.png");
 	TWeapon.loadFromFile("images/set6.png");
 	TEnemy.loadFromFile("images/ship/enemy_type_A.png");
+
+	//Texture bullet
+	tBulletRed.loadFromFile("images/fire_red.png");
+	tBulletBlue.loadFromFile("images/fire_blue.png");
 
 	//Texture explosion
 	tExpA.loadFromFile("images/explosions/type_A.png");
 	tExpB.loadFromFile("images/explosions/type_B.png");
 	tExpC.loadFromFile("images/explosions/type_C.png");
 
+	//Texture hero
+	tHero.loadFromFile("images/ship/hero.png");
+	tHeroFly.loadFromFile("images/ship/hero_fly.png");
+
 	//Animation explosion
 	anim.create("explosion_A", tExpA, 0, 0, 147, 150, 20, 0.015, 147);
-	anim.create("explosion_B", tExpB, 0, 0, 128, 150, 60, 0.015, 128);
+	anim.create("explosion_B", tExpB, 0, 0, 128, 150, 64, 0.015, 128);
 	anim.create("explosion_C", tExpC, 0, 0, 150, 150, 48, 0.015, 150);
 	
+	//Animation bullet
+	anim.create("bullet_red", tBulletRed, 0, 0, 32, 50, 16, 0.005, 32);
+	anim.create("bullet_blue", tBulletBlue, 0, 0, 32, 50, 16, 0.005, 32);
+
+	//Animation hero
+	anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("heroFly", tHeroFly, 0, 0, 240, 200, 5, 0.005, 240);
 
 	anim.create("meteorite", tMeteorite, 0, 0, 64, 50, 16, 0.005, 64);
-	anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
-	anim.create("enemy", TEnemy, 80, 80, 100, 100, 1, 0.005, 100);
-	anim.create("bullet", tBullet, 0, 0, 32, 50, 16, 0.005, 32);
 
+	anim.create("enemy", TEnemy, 80, 80, 100, 100, 1, 0.005, 100);
 	anim.create("health", THealth, 0, 0, 80, 80, 1, 0.005, 100);
 	//anim.create("set_red", TWeapon, 0, 0, 100, 100, 1, 0.005, 100);
 	
 	sf::Clock clock;
 	window->setFramerateLimit(60);
+	float timeShoot = 0;
+
 	Score score(WIDTH,HEIGHT);
 
 	Player *player = new Player();
@@ -56,10 +71,11 @@ void Game::Start() {
 
 	for (int i = 0; i < ENEMY_COUNT; i++) {
 		Enemy *e = new Enemy();
-		e->create(anim, rand() % WIDTH, rand() % HEIGHT, 90, 25);
-		e->setTarget(player);       // static  - ERROR
+		e->create(anim, rand() % WIDTH, rand() % HEIGHT, 90, 45);
+		e->setTarget(player);  // static  - ERROR
 		essence.push_back(e);
 	}
+
 
 	for (int i = 0; i < METEORITE_COUNT; i++) {
 		Meteorite *m = new Meteorite();	
@@ -84,7 +100,7 @@ void Game::Start() {
 				window->close();
 			if (event.type == sf::Event::KeyPressed)
 				if (event.key.code == sf::Keyboard::Space) {
-					Bullet *b = new Bullet();
+					Bullet *b = new Bullet("hero_bullet");
 					b->create(anim, player->getX(), player->getY(), player->getAngle(), BULLET_RADIUS);
 					essence.push_back(b);
 				}
@@ -96,14 +112,23 @@ void Game::Start() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player->key["Up"] = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) { player->key["Space"] = true; };
 
-
 		
-
-
+		
+		timeShoot += time;
+		if (timeShoot > 1000) {
+			for (auto i : essence) // meteoritu toje lydi   // paralax
+				if (i->getName() == "enemy") {
+					Bullet *b = new Bullet("enemy_bullet");
+					b->create(anim, i->getX(), i->getY(), i->getAngle(), BULLET_RADIUS);
+					essence.push_back(b);
+				}
+			timeShoot = 0;
+		}
+		
 		for (auto i : essence)
 			for (auto j : essence)
 				if (i->collision(j)) {
-					if (i->getName() == "bullet" && j->getName() == "enemy") {
+					if (i->getName() == "hero_bullet" && j->getName() == "enemy") {
 					//	printf("x: %f y: %f\n", j->getX(),j->getY());
 						
 						i->damage(1);
@@ -116,7 +141,14 @@ void Game::Start() {
 						}
 					}
 					else if (i->getName() == "player" && j->getName() == "enemy") {
-						player->damage(1);
+						i->damage(10);
+						j->damage(1);
+						score.setScore(10);
+					}
+					else if (i->getName() == "enemy_bullet" && j->getName() == "player") {
+						i->damage(1);
+						j->damage(10);
+					
 					}
 				}
 
@@ -141,7 +173,7 @@ void Game::Start() {
 
 		score.draw(window);
 		
-		player->drawBar(window);
+
 
 
 		window->display();

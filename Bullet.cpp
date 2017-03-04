@@ -2,8 +2,8 @@
 
 
 
-Bullet::Bullet(){
-	name = "bullet";
+Bullet::Bullet(char* _name){
+	name = _name;
 	STATE = normal;
 }
 
@@ -11,7 +11,7 @@ Bullet::Bullet(){
 
 void Bullet::Animation(float time)
 {	
-	if (STATE == normal) anim.set("bullet");
+	if (STATE == normal) anim.set("bullet_red");
 	anim.setRotate(angle+90);
 	anim.tick(time);
 }
@@ -32,3 +32,4 @@ void Bullet::update(float time) {
 	if (life <= 0)
 		dead = true;
 }
+

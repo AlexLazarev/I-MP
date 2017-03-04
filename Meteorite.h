@@ -3,6 +3,7 @@
 class Meteorite :
 	public Essentiality
 {
+	enum { explosion, normal, fly } STATE;
 	
 public:
 	Meteorite();

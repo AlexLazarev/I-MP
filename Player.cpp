@@ -55,7 +55,11 @@ void Player::KeyCheck() {
 
 void Player::Animation(float time)
 {
-	if (STATE == explosion) anim.set("explosion_A");
+	if (STATE == explosion){ anim.set("explosion_A"); 	
+		if (anim.End())
+			dead = true;
+	}
+
 	if (STATE == normal)	anim.set("hero");
 	if (STATE == fly)		anim.set("heroFly");
 	anim.setRotate(angle);
@@ -67,7 +71,7 @@ void Player::update(float time) {
 	Animation(time);
 	
 	if (thrust) {
-		//STATE = fly;
+	//	STATE = fly;
 		dx += cos(angle*DEGTORAD)*0.2;
 		dy += sin(angle*DEGTORAD)*0.2;
 	}
@@ -86,10 +90,10 @@ void Player::update(float time) {
 
 	x += dx;
 	y += dy;
-	if(life > 0)
+	if (life > 10)
 		lifeBar.setSize(sf::Vector2f(life, 10));
-	else 
-		dead = true;
+	else
+		STATE = explosion;
 	key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
 }
 

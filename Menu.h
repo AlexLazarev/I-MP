@@ -4,14 +4,14 @@
 class Menu
 {
 	int selectedItemIndex;
-	sf::Font font;
-	sf::Text item[amountMenuItem];
+	sf::Font				font;
+	sf::Text				item[amountMenuItem];
 	
 
 public:
 	Menu(float width, float height);
 
-	int GetPressedItem() { return selectedItemIndex; }
+	int GetPressedItem()	{ return selectedItemIndex; }
 	Menu();
 	~Menu();
 

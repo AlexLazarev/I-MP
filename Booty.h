@@ -4,6 +4,7 @@
 class Booty:
 	public Essentiality
 {
+	enum { explosion, normal, fly } STATE;
 public:
 	Booty();
 	~Booty();
