@@ -29,3 +29,6 @@ bool Essentiality::collision(Essentiality *second) {
 		(second->y - this->y)*(second->y - this->y)) < (this->r + second->r);
 }
 
+void Essentiality::attack(Essentiality *e) {
+	e->life -= this->dmg;
+}

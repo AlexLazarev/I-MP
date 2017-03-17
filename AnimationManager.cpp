@@ -21,7 +21,7 @@ void AnimationManager::create(sf::String name, sf::Texture &t, int x, int y, int
 
 	for (int i = 0; i<count; i++)
 		a.frames.push_back(sf::IntRect(x + i*step, y, w, h));
-
+	
 	animList[name] = a;
 	currentAnim = name;
 

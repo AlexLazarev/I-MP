@@ -6,6 +6,7 @@ class Animation
 	bool						end;
 
 public:
+
 	std::vector<sf::IntRect>	frames; 
 	float						currentFrame;
 	float                       speed;

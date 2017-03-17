@@ -2,16 +2,29 @@
 
 
 
-Bullet::Bullet(char* _name){
+Bullet::Bullet(char* _name, weapon weapon){
 	name = _name;
-	STATE = normal;
+	WEAPON = weapon;
+	dmg = 10;
 }
 
 
 
 void Bullet::Animation(float time)
 {	
-	if (STATE == normal) anim.set("bullet_red");
+	switch (WEAPON)
+	{
+	case BLAST_BLUE:
+		anim.set("bullet_blue");
+		break;
+	case BLAST_RED:
+		anim.set("bullet_red");
+		break;
+	default:
+		break;
+	}
+	
+
 	anim.setRotate(angle+90);
 	anim.tick(time);
 }

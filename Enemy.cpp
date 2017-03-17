@@ -5,6 +5,8 @@ Enemy::Enemy() {
 	dy = rand() % 10 - 5;
 	STATE = normal;
 	name = "enemy";
+	WEAPON = BLAST_BLUE;
+	dmg = 10;
 }
 
 

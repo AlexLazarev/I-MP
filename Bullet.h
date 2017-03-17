@@ -3,9 +3,8 @@
 class Bullet :
 	public Essentiality
 {
-	enum { explosion, normal, fly } STATE;
 public:
-	Bullet(char*);
+	Bullet(char*, weapon);
 	~Bullet();
 
 	void update(float time);

@@ -5,6 +5,7 @@ class Enemy :
 	public Essentiality	
 {
 	enum { explosion, normal } STATE;
+	
 	const Essentiality *target;
 	
 public:
@@ -13,6 +14,7 @@ public:
 	void update(float time);
 	void Animation(float time);
 	void aim();
+
 
 	void setTarget(const Essentiality *newTarget);
 };

@@ -6,7 +6,8 @@ Meteorite::Meteorite(){
 	dx = rand() % 10 - 5;
 	dy = rand() % 10 - 5;
 	STATE = normal;
-	name = "enemy";
+	name = "meteorite";
+	dmg = 15;
 }
 
 
@@ -25,8 +26,7 @@ void Meteorite::Animation(float time)
 		if (anim.End())
 			dead = true;
 	}
-	
-//	if (STATE == stay) anim.set("stay");
+
 	if (STATE == normal) anim.set("meteorite");
 	anim.setRotate(angle);
 	anim.tick(time*r);

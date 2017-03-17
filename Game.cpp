@@ -14,7 +14,7 @@ Game::~Game()
 
 
 void Game::Start() {
-	sf::Texture tBg, tHero, tMeteorite, tExpA, tExpB, tExpC, tBulletRed, tBulletBlue, THealth, TWeapon, tHeroFly, TEnemy;
+	sf::Texture tBg, tHero, tHero2, tHero3, tMeteorite, tExpA, tExpB, tExpC, tBulletRed, tBulletBlue, THealth, TWeapon, tHeroFly, TEnemy;
 	
 	tBg.loadFromFile("images/bg.jpg");
 	sf::Sprite bg;
@@ -37,8 +37,10 @@ void Game::Start() {
 	tExpC.loadFromFile("images/explosions/type_C.png");
 
 	//Texture hero
-	tHero.loadFromFile("images/ship/hero.png");
-	tHeroFly.loadFromFile("images/ship/hero_fly.png");
+	tHero.loadFromFile("images/ship/light_hero_set1.png");
+	tHero2.loadFromFile("images/ship/set2.png");
+	tHero3.loadFromFile("images/ship/set3.png");
+	
 
 	//Animation explosion
 	anim.create("explosion_A", tExpA, 0, 0, 147, 150, 20, 0.015, 147);
@@ -50,8 +52,13 @@ void Game::Start() {
 	anim.create("bullet_blue", tBulletBlue, 0, 0, 32, 50, 16, 0.005, 32);
 
 	//Animation hero
-	anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
-	anim.create("heroFly", tHeroFly, 0, 0, 240, 200, 5, 0.005, 240);
+    //anim.create("hero", tHero, 80, 80, 100, 100, 1, 0.005, 100);
+	anim.create("light_hero", tHero,0, 0, 150, 150, 19, 0.009, 150);
+	
+
+	anim.create("set2", tHero2, 0, 0, 100, 100, 1, 0.0005, 100);
+	anim.create("set3", tHero3, 0, 0, 100, 100, 1, 0.0005, 100);
+
 
 	anim.create("meteorite", tMeteorite, 0, 0, 64, 50, 16, 0.005, 64);
 
@@ -63,7 +70,7 @@ void Game::Start() {
 	window->setFramerateLimit(60);
 	float timeShoot = 0;
 
-	Score score(WIDTH,HEIGHT);
+	
 
 	Player *player = new Player();
 	player->create(anim, 50, 100, 0, 45);
@@ -100,7 +107,7 @@ void Game::Start() {
 				window->close();
 			if (event.type == sf::Event::KeyPressed)
 				if (event.key.code == sf::Keyboard::Space) {
-					Bullet *b = new Bullet("hero_bullet");
+					Bullet *b = new Bullet("hero_bullet", player->getWeapon());
 					b->create(anim, player->getX(), player->getY(), player->getAngle(), BULLET_RADIUS);
 					essence.push_back(b);
 				}
@@ -116,39 +123,36 @@ void Game::Start() {
 		
 		timeShoot += time;
 		if (timeShoot > 1000) {
-			for (auto i : essence) // meteoritu toje lydi   // paralax
+			for (auto i : essence)
 				if (i->getName() == "enemy") {
-					Bullet *b = new Bullet("enemy_bullet");
+					Bullet *b = new Bullet("enemy_bullet", i->getWeapon());
 					b->create(anim, i->getX(), i->getY(), i->getAngle(), BULLET_RADIUS);
 					essence.push_back(b);
 				}
 			timeShoot = 0;
 		}
 		
+
+
+
 		for (auto i : essence)
 			for (auto j : essence)
 				if (i->collision(j)) {
-					if (i->getName() == "hero_bullet" && j->getName() == "enemy") {
+					if (i->getName() == "hero_bullet" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
 					//	printf("x: %f y: %f\n", j->getX(),j->getY());
-						
-						i->damage(1);
-						j->damage(1);
-						score.setScore(10);
-						if (j->getDead()) {
-							Booty *b = new Booty();
-							b->create(anim, j->getX(), j->getY(), 0, 16);
-							essence.push_back(b);
-						}
+						i->attack(j);
+						j->attack(i);
+						player->setExp(60);
+						score.setScore(10);				
 					}
-					else if (i->getName() == "player" && j->getName() == "enemy") {
-						i->damage(10);
-						j->damage(1);
+					else if (i->getName() == "player" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
+						i->attack(j);
+						j->attack(i);
 						score.setScore(10);
 					}
 					else if (i->getName() == "enemy_bullet" && j->getName() == "player") {
-						i->damage(1);
-						j->damage(10);
-					
+						i->attack(j);
+						j->attack(i);			
 					}
 				}
 
@@ -172,8 +176,14 @@ void Game::Start() {
 			i->draw(window);
 
 		score.draw(window);
-		
 
+		if (player->getLife() < 0) {
+			gameState = GameOver;
+			return;
+		}
+
+		player->drawBar(window);
+		
 
 
 		window->display();
@@ -222,17 +232,42 @@ void Game::ShowMenu() {
 		}
 }
 
+void Game::ShowGameOver(){
+	sf::Texture tGameOver;
+	tGameOver.loadFromFile("images/GameOver.png");
+	sf::Sprite bg;
+	bg.setTexture(tGameOver);
+	sf::Font font;
+	sf::Text text;
+
+	font.loadFromFile("font/bignoodletoo.ttf");
+	text.setFont(font);
+	text.setFillColor(sf::Color::Red);
+	text.setCharacterSize(75);
+	text.setPosition(sf::Vector2f(WIDTH*0.4, HEIGHT*0.4));
+	text.setString(std::to_wstring(score.getScore()));
+
+
+	while (window->isOpen()) {
+
+		window->clear();
+		window->draw(bg);
+		window->draw(text);
+		window->display();
+	}
+}
+
 void Game::loop() {
 	while (window->isOpen()) {
 		switch (gameState) {
 		case ShowingMenu:
 			ShowMenu();
 			break;
-		case ShowingSplash:
+		case ShowingSplashScene:
 			//	ShowSplashScreen();
 			break;
-		case ShowingWin:
-			//ShowWinScreen();
+		case GameOver:
+			ShowGameOver();
 			break;
 		case Playing:
 			Start();

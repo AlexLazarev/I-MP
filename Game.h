@@ -11,16 +11,18 @@
 
 class Game
 {
-	enum { ShowingSplash, ShowingMenu, ShowingWin, Playing} gameState;
+	enum { ShowingSplashScene, ShowingMenu, GameOver, Playing} gameState;
 	sf::RenderWindow*				window;
 	AnimationManager				anim;
 	std::list<Essentiality*>		essence;
+	Score							score;
 public:
 	Game();
 	~Game();
 	void Start();
 	void loop();
 	void ShowMenu();
+	void ShowGameOver();
 	
 };
 

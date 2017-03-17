@@ -25,6 +25,7 @@ void Animation::tick(float time) {
 		currentFrame -= frames.size();
 		end = true;
 	}
+
 	int i = currentFrame;
 	sprite.setTextureRect(frames[i]);
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "SETTING.h"
 
 
 class Score
@@ -8,9 +9,10 @@ class Score
 	sf::Text textScore[2];
 	int score;
 public:
-	Score(float width, float height);
+	Score();
 	~Score();
 	void setScore(int s);
+	int getScore() { return score; }
 	void draw(sf::RenderWindow *&window);
 };
 
