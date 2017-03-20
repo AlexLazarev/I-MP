@@ -24,7 +24,7 @@ void Score::draw(sf::RenderWindow *&window) {
 
 
 
-void Score::setScore(int s) {
+void Score::addScore(int s) {
 	score += s;
 	textScore[1].setString(std::to_wstring(score));
 }

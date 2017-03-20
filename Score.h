@@ -11,7 +11,7 @@ class Score
 public:
 	Score();
 	~Score();
-	void setScore(int s);
+	void addScore(int s);
 	int getScore() { return score; }
 	void draw(sf::RenderWindow *&window);
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include "SFML\Audio.hpp"
 #include "Player.h"
 #include "Meteorite.h"
 #include "Enemy.h"
@@ -6,16 +7,16 @@
 #include "Booty.h"
 #include "Menu.h"
 #include "Score.h"
-
 #include <list>
 
 class Game
 {
-	enum { ShowingSplashScene, ShowingMenu, GameOver, Playing} gameState;
+	enum { ShowingSplashScene, ShowingMenu, ShowingOption, GameOver, Playing} gameState;
 	sf::RenderWindow*				window;
 	AnimationManager				anim;
 	std::list<Essentiality*>		essence;
 	Score							score;
+	bool							musicOn;
 public:
 	Game();
 	~Game();
@@ -23,6 +24,7 @@ public:
 	void loop();
 	void ShowMenu();
 	void ShowGameOver();
+	void ShowOption();
 	
 };
 
