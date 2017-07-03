@@ -4,7 +4,7 @@
 
 Player::Player(){
 	name = "player";
-	ship = "hero";
+	ship = "light_hero";
 	shoot = false;
 	lvl = 1;
 	STATE = normal;
@@ -65,7 +65,7 @@ void Player::Animation(float time)
 	}
 
 	if (STATE == normal) {
-		anim.set("light_hero");
+		anim.set(ship);
 		if(anim.End())
 			STATE = fly;
 	}
@@ -103,12 +103,12 @@ void Player::update(float time) {
 	x += dx;
 	y += dy;
 	if (life > 0)
-		lifeBar.setSize(sf::Vector2f(life, 10));
+		lifeBar.setSize(sf::Vector2f(life/10, 10));
 	else
 		STATE = explosion;
-	if (experience > 100) {
+	if (experience > 1000) {
 		experience = 0;
-		//lvlUp();
+		lvlUp();
 	}
 	key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
 }
@@ -128,7 +128,6 @@ void Player::drawBar(sf::RenderWindow *&window) {
 		life = 1000;
 		break;
 	case 3:
-		ship = "set3";
 		life = 2000;
 		break;
 	default:

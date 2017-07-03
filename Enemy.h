@@ -9,6 +9,7 @@ class Enemy :
 	const Essentiality *target;
 	
 public:
+	
 	Enemy();
 	~Enemy();
 	void update(float time);

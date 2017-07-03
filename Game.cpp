@@ -5,6 +5,8 @@
 Game::Game(){
 	window = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), "I&MyProblems!");
 	gameState = ShowingMenu;
+	musicOn = true;
+	
 }
 
 
@@ -14,6 +16,10 @@ Game::~Game()
 
 
 void Game::Start() {
+	
+	sf::Music music;
+	music.openFromFile("audio/game.ogg");
+
 	sf::Texture tBg, tHero, tHero2, tHero3, tMeteorite, tExpA, tExpB, tExpC, tBulletRed, tBulletBlue, THealth, TWeapon, tHeroFly, TEnemy;
 	
 	tBg.loadFromFile("images/bg.jpg");
@@ -38,8 +44,8 @@ void Game::Start() {
 
 	//Texture hero
 	tHero.loadFromFile("images/ship/light_hero_set1.png");
-	tHero2.loadFromFile("images/ship/set2.png");
-	tHero3.loadFromFile("images/ship/set3.png");
+	tHero2.loadFromFile("images/ship/light_hero_set2.png");
+
 	
 
 	//Animation explosion
@@ -56,8 +62,8 @@ void Game::Start() {
 	anim.create("light_hero", tHero,0, 0, 150, 150, 19, 0.009, 150);
 	
 
-	anim.create("set2", tHero2, 0, 0, 100, 100, 1, 0.0005, 100);
-	anim.create("set3", tHero3, 0, 0, 100, 100, 1, 0.0005, 100);
+	anim.create("set2", tHero2, 0, 0, 150, 150, 19, 0.0005, 150);
+	
 
 
 	anim.create("meteorite", tMeteorite, 0, 0, 64, 50, 16, 0.005, 64);
@@ -68,9 +74,10 @@ void Game::Start() {
 	
 	sf::Clock clock;
 	window->setFramerateLimit(60);
-	float timeShoot = 0;
-
-	
+	float timeShootEnemy = 0;
+	float timeShootPlayer = 0;
+	float timeSpawn = 0;
+	unsigned int countSpawn = 0;
 
 	Player *player = new Player();
 	player->create(anim, 50, 100, 0, 45);
@@ -90,105 +97,127 @@ void Game::Start() {
 		essence.push_back(m);
 	}
 
-
+	if(musicOn)
+		music.play();
+	
 	while (window->isOpen()) {
 		
-		float time = clock.getElapsedTime().asMicroseconds();
-		clock.restart();
+			float time = clock.getElapsedTime().asMicroseconds();
+			clock.restart();
 
-		time = time / 800;
+			time = time / 800;
 
-		if (time > 40) time = 40;
+			if (time > 40) time = 40;
 
-		sf::Event event;
-		while (window->pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window->close();
-			if (event.type == sf::Event::KeyPressed)
+			sf::Event event;
+			while (window->pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window->close();
+				
+
+				timeShootPlayer += time;
 				if (event.key.code == sf::Keyboard::Space) {
-					Bullet *b = new Bullet("hero_bullet", player->getWeapon());
-					b->create(anim, player->getX(), player->getY(), player->getAngle(), BULLET_RADIUS);
-					essence.push_back(b);
-				}
-
-		}
-		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) player->key["R"] = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))player->key["L"] = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player->key["Up"] = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) { player->key["Space"] = true; };
-
-		
-		
-		timeShoot += time;
-		if (timeShoot > 1000) {
-			for (auto i : essence)
-				if (i->getName() == "enemy") {
-					Bullet *b = new Bullet("enemy_bullet", i->getWeapon());
-					b->create(anim, i->getX(), i->getY(), i->getAngle(), BULLET_RADIUS);
-					essence.push_back(b);
-				}
-			timeShoot = 0;
-		}
-		
-
-
-
-		for (auto i : essence)
-			for (auto j : essence)
-				if (i->collision(j)) {
-					if (i->getName() == "hero_bullet" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
-					//	printf("x: %f y: %f\n", j->getX(),j->getY());
-						i->attack(j);
-						j->attack(i);
-						player->setExp(60);
-						score.setScore(10);				
-					}
-					else if (i->getName() == "player" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
-						i->attack(j);
-						j->attack(i);
-						score.setScore(10);
-					}
-					else if (i->getName() == "enemy_bullet" && j->getName() == "player") {
-						i->attack(j);
-						j->attack(i);			
+					if (timeShootPlayer > PLAYER_SPEED_ATTACK) {
+						Bullet *b = new Bullet("hero_bullet", player->getWeapon());
+						b->create(anim, player->getX(), player->getY(), player->getAngle(), BULLET_RADIUS);
+						essence.push_back(b);
+						timeShootPlayer = 0;
 					}
 				}
 
-		for (auto i = essence.begin(); i != essence.end(); ) {
-			Essentiality *e = *i;
-			e->update(time);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) player->key["R"] = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))player->key["L"] = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player->key["Up"] = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) { player->key["Space"] = true; };
+
+			timeSpawn += time;
+			if (timeSpawn > ENEMY_SPEED_SPAWN) {
+				for (int i = 0; i < 3*countSpawn; i++) {
+					Enemy *e = new Enemy();
+					e->create(anim, rand()%2*WIDTH, rand()%2*HEIGHT, 90, 45);
+					e->setTarget(player);  // static  - ERROR
+					essence.push_back(e);
+				}
+				for (int i = 0; i < 4; i++) {
+					Meteorite *e = new Meteorite();
+					e->create(anim, rand() % 2 * WIDTH, rand() % 2 * HEIGHT, 90, 45);
+					essence.push_back(e);
+				}
+				timeSpawn = 0;
+				if(countSpawn < 10)
+					countSpawn++;
+			}
+
 			
 
-			if (e->getDead()) {
-				i = essence.erase(i);
-				delete e;
-			}  /// kxm
-			else i++;
-		}
+			timeShootEnemy += time;
+			if (timeShootEnemy > 1000) {
+				for (auto i : essence)
+					if (i->getName() == "enemy") {
+						Bullet *b = new Bullet("enemy_bullet", i->getWeapon());
+						b->create(anim, i->getX(), i->getY(), i->getAngle(), BULLET_RADIUS);
+						essence.push_back(b);
+					}
+				timeShootEnemy = 0;
+			}
 
 
-		window->clear();
-		window->draw(bg);
-
-		for (auto i : essence)
-			i->draw(window);
-
-		score.draw(window);
-
-		if (player->getLife() < 0) {
-			gameState = GameOver;
-			return;
-		}
-
-		player->drawBar(window);
-		
 
 
-		window->display();
+			for (auto i : essence)
+				for (auto j : essence)
+					if (i->collision(j)) {
+						if (i->getName() == "hero_bullet" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
+							//	printf("x: %f y: %f\n", j->getX(),j->getY());
+							i->attack(j);
+							j->attack(i);
+							player->setExp(60);
+							score.addScore(10);
+						}
+						else if (i->getName() == "player" && (j->getName() == "enemy" || j->getName() == "meteorite")) {
+							i->attack(j);
+							j->attack(i);
+							score.addScore(10);
+						}
+						else if (i->getName() == "enemy_bullet" && j->getName() == "player") {
+							i->attack(j);
+							j->attack(i);
+						}
+					}
+
+			for (auto i = essence.begin(); i != essence.end(); ) {
+				Essentiality *e = *i;
+				e->update(time);
+
+			
+				if (e->getDead()) {
+					i = essence.erase(i);
+					delete e;
+				}  /// kxm
+				else i++;
+			}
+
+
+			window->clear();
+			window->draw(bg);
+
+			for (auto i : essence)
+				i->draw(window);
+
+			score.draw(window);
+
+			if (player->getLife() < 0) {
+				gameState = GameOver;
+				return;
+			}
+
+			player->drawBar(window);
+
+			window->display();
 	}
-
 }
 
 
@@ -213,7 +242,9 @@ void Game::ShowMenu() {
 							gameState = Playing;
 							return;
 						case 1:
-							break;
+							gameState = ShowingOption;
+							return;
+						
 						case 2:
 							window->close();
 							break;
@@ -240,18 +271,44 @@ void Game::ShowGameOver(){
 	sf::Font font;
 	sf::Text text;
 
-	font.loadFromFile("font/bignoodletoo.ttf");
+	font.loadFromFile("font/Beast-Impacted.ttf");
 	text.setFont(font);
-	text.setFillColor(sf::Color::Red);
-	text.setCharacterSize(75);
-	text.setPosition(sf::Vector2f(WIDTH*0.4, HEIGHT*0.4));
+	text.setFillColor(sf::Color::White);
+	text.setCharacterSize(175);
+	text.setPosition(sf::Vector2f(WIDTH*0.43, HEIGHT*0.6));
 	text.setString(std::to_wstring(score.getScore()));
 
 
 	while (window->isOpen()) {
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){ gameState = ShowingMenu; return; }
 		window->clear();
 		window->draw(bg);
+		window->draw(text);
+		window->display();
+	}
+}
+
+void Game::ShowOption() {
+	sf::Font font;
+	sf::Text text;
+	font.loadFromFile("font/bignoodletoo.ttf");
+	text.setFont(font);
+	text.setFillColor(sf::Color::White);
+	text.setCharacterSize(75);
+	text.setPosition(sf::Vector2f(WIDTH*0.35, HEIGHT*0.4));
+	
+
+	while (window->isOpen()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) { gameState = ShowingMenu; return; }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { musicOn = false; }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { musicOn = true; }
+
+		if(musicOn)
+			text.setString("Music: ON");
+		else
+			text.setString("Music: OFF");
+
+		window->clear();
 		window->draw(text);
 		window->display();
 	}
@@ -262,6 +319,9 @@ void Game::loop() {
 		switch (gameState) {
 		case ShowingMenu:
 			ShowMenu();
+			break;
+		case ShowingOption:
+			ShowOption();
 			break;
 		case ShowingSplashScene:
 			//	ShowSplashScreen();
