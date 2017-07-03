@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Game.cpp
 c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\animationmanager.h(20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(52): warning C4305: 'argument': truncation from 'double' to 'float'
@@ -22,3 +23,7 @@ c:\users\alex\documents\visual studio 2015\projects\iandmyproblems\game.cpp(146)
   Enemy.cpp
   IandMyProblems.vcxproj -> C:\Users\Alex\Documents\Visual Studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
   IandMyProblems.vcxproj -> C:\Users\Alex\Documents\Visual Studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)
+=======
+﻿  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.exe
+  IandMyProblems.vcxproj -> C:\Users\Alex\documents\visual studio 2015\Projects\IandMyProblems\Debug\IandMyProblems.pdb (Partial PDB)
+>>>>>>> ba56e352c8154b9536816c19903402c4db299889

@@ -5,8 +5,8 @@
 Game::Game(){
 	window = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), "I&MyProblems!");
 	gameState = ShowingMenu;
-	musicOn = true;
-	
+
+	musicOn = true;	
 }
 
 
@@ -77,7 +77,9 @@ void Game::Start() {
 	float timeShootEnemy = 0;
 	float timeShootPlayer = 0;
 	float timeSpawn = 0;
+
 	unsigned int countSpawn = 0;
+
 
 	Player *player = new Player();
 	player->create(anim, 50, 100, 0, 45);
@@ -135,12 +137,15 @@ void Game::Start() {
 
 			timeSpawn += time;
 			if (timeSpawn > ENEMY_SPEED_SPAWN) {
-				for (int i = 0; i < 3*countSpawn; i++) {
+
+				for (int i = 0; i < 3*countSpawn; i++){
+
 					Enemy *e = new Enemy();
 					e->create(anim, rand()%2*WIDTH, rand()%2*HEIGHT, 90, 45);
 					e->setTarget(player);  // static  - ERROR
 					essence.push_back(e);
 				}
+
 				for (int i = 0; i < 4; i++) {
 					Meteorite *e = new Meteorite();
 					e->create(anim, rand() % 2 * WIDTH, rand() % 2 * HEIGHT, 90, 45);
@@ -149,6 +154,8 @@ void Game::Start() {
 				timeSpawn = 0;
 				if(countSpawn < 10)
 					countSpawn++;
+				timeSpawn = 0;
+
 			}
 
 			
@@ -208,6 +215,7 @@ void Game::Start() {
 				i->draw(window);
 
 			score.draw(window);
+
 
 			if (player->getLife() < 0) {
 				gameState = GameOver;
